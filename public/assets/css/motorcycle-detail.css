@@ -1,0 +1,387 @@
+/* ============================================================
+   MotoMarket — Motorcycle Detail Page
+   Scoped under .moto-detail (loaded only on motorcycles/show)
+   ============================================================ */
+
+.moto-detail {
+    --md-bg: #f8f9fb;
+    --md-card: #ffffff;
+    --md-navy: #0f172a;
+    --md-blue: #1d4ed8;
+    --md-blue-hover: #1e40af;
+    --md-green: #16a34a;
+    --md-border: #e5e7eb;
+    --md-gray-bg: #f1f3f6;
+    --md-muted: #64748b;
+    --md-radius: 12px;
+
+    background-color: var(--md-bg);
+    padding: 2rem 0 4rem;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Khmer script gets a taller line-height and a Khmer-friendly fallback */
+.md-km,
+.moto-detail .md-description,
+.moto-detail .md-feature-text {
+    font-family: 'Noto Sans Khmer', 'Khmer OS', 'Leelawadee UI', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.9;
+}
+
+/* ---------- Two-column layout: gallery ~45% / info ~55% ---------- */
+.md-grid {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 991.98px) {
+    .md-grid { gap: 1.5rem; }
+}
+
+@media (max-width: 767.98px) {
+    .md-grid { grid-template-columns: 1fr; }
+    .moto-detail { padding: 1.25rem 0 3rem; }
+}
+
+/* ---------- Gallery ---------- */
+.md-main-image {
+    background: var(--md-card);
+    border-radius: var(--md-radius);
+    overflow: hidden;
+    aspect-ratio: 16 / 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 1px solid var(--md-border);
+}
+
+.md-main-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: opacity .25s ease;
+}
+
+.md-main-image img.is-switching { opacity: 0; }
+
+.md-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: .85rem;
+}
+
+@media (max-width: 767.98px) {
+    .md-thumbs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: .35rem; }
+    .md-thumb { flex: 0 0 auto; }
+}
+
+.md-thumb {
+    width: 88px;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    background: var(--md-gray-bg);
+    border: 2px solid var(--md-border);
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.md-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.md-thumb:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.md-thumb.active {
+    border-color: var(--md-green);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, .14);
+}
+
+/* ---------- Title / price / meta ---------- */
+.md-title {
+    color: var(--md-navy);
+    font-weight: 800;
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    letter-spacing: -.02em;
+    line-height: 1.25;
+    margin-bottom: .35rem;
+}
+
+.md-price {
+    color: var(--md-blue);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+    margin-bottom: .5rem;
+}
+
+.md-meta {
+    color: var(--md-muted);
+    font-size: .9rem;
+    margin-bottom: 1rem;
+}
+
+.md-meta i { margin-right: .3rem; }
+
+/* ---------- Description ---------- */
+.md-description {
+    color: var(--md-muted);
+    font-size: .95rem;
+    white-space: pre-line;
+    margin-bottom: 1.5rem;
+}
+
+/* ---------- Info cards (category / catalog) ---------- */
+.md-info-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 379.98px) {
+    .md-info-cards { grid-template-columns: 1fr; }
+}
+
+.md-info-card {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    background: var(--md-gray-bg);
+    border-radius: var(--md-radius);
+    padding: 1rem 1.1rem;
+}
+
+.md-info-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--md-card);
+    color: var(--md-blue);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.md-info-label {
+    display: block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--md-muted);
+    margin-bottom: .15rem;
+}
+
+.md-info-value {
+    font-weight: 700;
+    color: var(--md-navy);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* ---------- Spec chips ---------- */
+.md-spec-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin-bottom: 1.75rem;
+}
+
+.md-spec-chips .spec-chip { background: var(--md-card); }
+
+/* ---------- Features section ---------- */
+.md-features-title {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    color: var(--md-navy);
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.md-features-title i { color: var(--md-blue); font-size: 1.35rem; }
+
+.md-features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .8rem;
+    margin-bottom: 1.75rem;
+}
+
+@media (max-width: 767.98px) {
+    .md-features-grid { grid-template-columns: 1fr; }
+}
+
+.md-feature-item {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    background: var(--md-gray-bg);
+    border-radius: var(--md-radius);
+    padding: .95rem 1.05rem;
+    height: 100%;
+}
+
+.md-feature-item > i {
+    color: var(--md-green);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.md-feature-text {
+    color: #334155;
+    font-size: .93rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ---------- Action buttons ---------- */
+.md-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .9rem;
+}
+
+@media (max-width: 767.98px) {
+    .md-actions { grid-template-columns: 1fr; }
+}
+
+.md-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    background: var(--md-blue);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    padding: .85rem 1.5rem;
+    text-decoration: none;
+    transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+.md-btn-primary:hover {
+    background: var(--md-blue-hover);
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(29, 78, 216, .28);
+    transform: translateY(-1px);
+}
+
+/* Seller has no Telegram username yet */
+.md-btn-primary.md-btn-disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.md-btn-primary.md-btn-disabled:hover,
+.md-btn-primary.md-btn-disabled:focus {
+    background: #94a3b8;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Small link that opens the existing on-site contact form */
+.md-msg-fallback {
+    display: inline-flex;
+    align-items: center;
+    margin-top: .85rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--md-muted);
+    font-size: .84rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color .2s ease;
+}
+
+.md-msg-fallback:hover { color: var(--md-blue); }
+
+.md-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    background: transparent;
+    color: var(--md-navy);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--md-border);
+    border-radius: 999px;
+    padding: .8rem 1.5rem;
+    transition: all .2s ease;
+}
+
+.md-btn-secondary:hover {
+    border-color: var(--md-blue);
+    color: var(--md-blue);
+    background: rgba(29, 78, 216, .04);
+}
+
+/* ---------- Back link ---------- */
+.md-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: 1.5rem;
+    color: var(--md-muted);
+    font-weight: 600;
+    font-size: .92rem;
+    text-decoration: none;
+    transition: color .2s ease, gap .2s ease;
+}
+
+.md-back-link:hover { color: var(--md-navy); gap: .7rem; }
+
+/* ---------- Seller strip ---------- */
+.md-seller {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    background: var(--md-card);
+    border: 1px solid var(--md-border);
+    border-radius: var(--md-radius);
+    padding: .8rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.md-seller-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fdba74;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+
+.md-seller-name { font-weight: 700; color: var(--md-navy); line-height: 1.2; }
+.md-seller-sub { font-size: .8rem; color: var(--md-muted); }
+
+/* ---------- Contact form panel (reuses existing collapse flow) ---------- */
+#contactSellerForm .bg-white {
+    border-radius: var(--md-radius);
+    border: 1px solid var(--md-border);
+}
