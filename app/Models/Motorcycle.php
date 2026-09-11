@@ -104,6 +104,35 @@ class Motorcycle extends Model
         return sprintf('%d | %scc | %s', $this->year, $this->engine_cc ?? '—', ucfirst($this->transmission));
     }
 
+    /**
+     * Telegram deep-link URL that pre-fills a message with this motorcycle's details.
+     *
+     * Returns null when the seller has no telegram_username set.
+     */
+    public function getTelegramMessageUrlAttribute(): ?string
+    {
+        $username = $this->seller->telegram_username ?? null;
+
+        if (!$username) {
+            return null;
+        }
+
+        $imageUrl = url($this->image_url);
+        $detailUrl = route('motorcycles.show', $this->slug);
+        $priceFormatted = '$' . number_format((float) $this->price, 2);
+        $brandName = $this->brand->name ?? '—';
+
+        $message = "📸 រូបម៉ូតូ\n{$imageUrl}\n\n"
+            . "🏍️ ម៉ូតូ:\n{$this->title}\n\n"
+            . "🏷️ ម៉ាក:\n{$brandName}\n\n"
+            . "💰 តម្លៃ:\n{$priceFormatted}\n\n"
+            . "🔗 ព័ត៌មានម៉ូតូ:\n{$detailUrl}\n\n"
+            . "សួស្តី ខ្ញុំចង់សួរព័ត៌មានអំពីម៉ូតូនេះ។\n"
+            . "សូមជួយផ្តល់ព័ត៌មានបន្ថែម។ អរគុណ 🙏";
+
+        return 'https://t.me/' . ltrim($username, '@') . '?text=' . urlencode($message);
+    }
+
     /* Scopes */
 
     public function scopeApproved(Builder $query): Builder

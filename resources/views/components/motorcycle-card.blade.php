@@ -49,9 +49,19 @@
                 <div class="price-tag">{{ $motorcycle->formatted_price }}</div>
                 <small class="moto-meta"><i class="bi bi-geo-alt me-1"></i>{{ $motorcycle->location }}</small>
             </div>
-            <a href="{{ route('motorcycles.show', $motorcycle) }}" class="btn btn-outline-accent btn-sm px-3">
-                View Details
-            </a>
+            <div class="d-flex gap-2">
+                @php($cardTelegramUrl = $motorcycle->telegram_message_url)
+                @if($cardTelegramUrl)
+                    <a href="{{ $cardTelegramUrl }}" target="_blank" rel="noopener noreferrer"
+                       class="btn btn-outline-accent btn-sm px-3"
+                       title="{{ __('Contact seller on Telegram') }}">
+                        <i class="bi bi-telegram"></i> ទាក់ទងអ្នកលក់
+                    </a>
+                @endif
+                <a href="{{ route('motorcycles.show', $motorcycle) }}" class="btn btn-outline-accent btn-sm px-3">
+                    View Details
+                </a>
+            </div>
         </div>
     </div>
 </div>

@@ -121,14 +121,14 @@
                     @endif
 
                     {{-- Action buttons --}}
-                    @php($sellerTelegramUrl = $motorcycle->seller->telegram_url)
+                    @php($telegramUrl = $motorcycle->telegram_message_url)
 
                     <div class="md-actions">
-                        @if($sellerTelegramUrl)
-                            <a href="{{ $sellerTelegramUrl }}" target="_blank" rel="noopener noreferrer"
+                        @if($telegramUrl)
+                            <a href="{{ $telegramUrl }}" target="_blank" rel="noopener noreferrer"
                                class="md-btn-primary md-km"
                                aria-label="{{ __('Contact the seller on Telegram') }}">
-                                <i class="bi bi-telegram"></i>ទាក់ទងអ្នកលក់
+                                <i class="bi bi-telegram"></i>✈ ទាក់ទងអ្នកលក់
                             </a>
                         @else
                             <button type="button" class="md-btn-primary md-btn-disabled md-km" aria-disabled="true" tabindex="-1"

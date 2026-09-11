@@ -18,7 +18,7 @@ class MotorcycleController extends Controller
             'fuel_type', 'location', 'sort',
         ]);
 
-        $motorcycles = Motorcycle::with(['brand', 'images'])
+        $motorcycles = Motorcycle::with(['brand', 'seller', 'images'])
             ->approved()
             ->filter($filters)
             ->sort($filters['sort'] ?? null)
