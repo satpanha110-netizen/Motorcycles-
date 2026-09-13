@@ -1,3 +1,4 @@
+@use('App\Models\StorageHelper')
 @extends('layouts.app')
 
 @section('title', 'My Profile')

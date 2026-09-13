@@ -1,3 +1,4 @@
+@use('App\Models\StorageHelper')
 @php
     $area = request()->segment(1); // 'seller' or 'admin'
 

@@ -19,9 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Make StorageHelper available in Blade views without a namespace.
-        class_alias(\App\Models\StorageHelper::class, 'StorageHelper');
-
         // Render pagination links with Bootstrap 5 markup.
         \Illuminate\Pagination\Paginator::useBootstrapFive();
     }
