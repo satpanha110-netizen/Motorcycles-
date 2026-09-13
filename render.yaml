@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: motorcycles-shop
+    runtime: docker
+    repo: https://github.com/satpanha110-netizen/Motorcycles-
+    branch: master
+    plan: free
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://motorcycles-shop.onrender.com
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: db.luqdffydlebfsbkabgtv.supabase.co
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: q2!xB?Q53jSuQcH
+      - key: RUN_MIGRATIONS
+        value: "true"

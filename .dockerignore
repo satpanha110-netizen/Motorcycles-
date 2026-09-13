@@ -1,0 +1,18 @@
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+.vscode
+.idea
+node_modules
+vendor
+public/build
+public/hot
+public/storage
+storage/logs/*.log
+storage/*.key
+New folder
+image_for_add_to_database
+*.log
+.DS_Store
