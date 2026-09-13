@@ -6,7 +6,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 COPY . .
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts
 
 FROM node:20-alpine AS assets
 
@@ -20,7 +20,7 @@ RUN npm install && npm run build
 
 FROM php:8.3-fpm-alpine AS runtime
 
-RUN apk add --no-cache nginx \
+RUN apk add --no-cache nginx postgresql-dev \
     && docker-php-ext-install pdo_pgsql pgsql \
     && docker-php-ext-install opcache
 
