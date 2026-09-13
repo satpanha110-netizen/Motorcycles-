@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateMotorcycleRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Motorcycle;
+use App\Models\StorageHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -114,17 +115,17 @@ class MotorcycleController extends Controller
     {
         if ($request->hasFile('main_image')) {
             if ($motorcycle->main_image) {
-                Storage::disk('public')->delete($motorcycle->main_image);
+                Storage::disk(StorageHelper::disk())->delete($motorcycle->main_image);
             }
             $motorcycle->update([
-                'main_image' => $request->file('main_image')->store('motorcycles', 'public'),
+                'main_image' => $request->file('main_image')->store('motorcycles', StorageHelper::disk()),
             ]);
         }
 
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $image) {
                 $motorcycle->images()->create([
-                    'image' => $image->store('motorcycles', 'public'),
+                    'image' => $image->store('motorcycles', StorageHelper::disk()),
                 ]);
             }
         }
@@ -133,11 +134,11 @@ class MotorcycleController extends Controller
     protected function deleteImages(Motorcycle $motorcycle): void
     {
         if ($motorcycle->main_image) {
-            Storage::disk('public')->delete($motorcycle->main_image);
+            Storage::disk(StorageHelper::disk())->delete($motorcycle->main_image);
         }
 
         foreach ($motorcycle->images as $image) {
-            Storage::disk('public')->delete($image->image);
+            Storage::disk(StorageHelper::disk())->delete($image->image);
         }
     }
 }

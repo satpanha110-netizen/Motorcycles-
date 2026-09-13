@@ -33,6 +33,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'seller',
                 'status' => 'active',
+                'telegram_username' => 'LEN_G168',
                 'created_at' => now()->subMonths($index + 2),
             ]);
         }

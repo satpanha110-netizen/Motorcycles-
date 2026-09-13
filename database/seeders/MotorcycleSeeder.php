@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Motorcycle;
 use App\Models\MotorcycleImage;
+use App\Models\StorageHelper;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -83,8 +84,8 @@ class MotorcycleSeeder extends Seeder
 
     public function run(): void
     {
-        Storage::disk('public')->deleteDirectory('motorcycles');
-        Storage::disk('public')->makeDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->deleteDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->makeDirectory('motorcycles');
 
         $brands = Brand::with('motorcycles')->get()->keyBy('name');
         $categories = Category::all();
@@ -217,7 +218,7 @@ class MotorcycleSeeder extends Seeder
 SVG;
 
         $path = "motorcycles/{$filename}.svg";
-        Storage::disk('public')->put($path, $svg);
+        Storage::disk(StorageHelper::disk())->put($path, $svg);
 
         return $path;
     }

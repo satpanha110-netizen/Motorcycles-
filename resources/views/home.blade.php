@@ -111,7 +111,7 @@
                         <a href="{{ route('brands.show', $brand) }}" class="brand-card">
                             <div class="brand-logo-circle{{ $brand->logo ? ' brand-logo-circle--white' : '' }}">
                                 @if($brand->logo)
-                                    <img src="{{ str_starts_with($brand->logo, 'brands/') ? asset('storage/'.$brand->logo) : asset($brand->logo) }}"
+                                    <img src="{{ str_starts_with($brand->logo, 'brands/') ? StorageHelper::url($brand->logo) : asset($brand->logo) }}"
                                          alt="{{ $brand->name }}" width="60"
                                          style="width:100%;height:100%;object-fit:contain;">
                                 @else

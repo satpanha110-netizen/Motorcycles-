@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\StorageHelper;
 use Illuminate\Support\Facades\Storage;
 
 class MotoImageGenerator
@@ -57,7 +58,7 @@ class MotoImageGenerator
 SVG;
 
         $path = "motorcycles/{$filename}.svg";
-        Storage::disk('public')->put($path, $svg);
+        Storage::disk(StorageHelper::disk())->put($path, $svg);
 
         return $path;
     }

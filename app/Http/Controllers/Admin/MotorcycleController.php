@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Motorcycle;
+use App\Models\StorageHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ class MotorcycleController extends Controller
     {
         $motorcycles = Motorcycle::with(['brand', 'seller'])
             ->when($request->filled('q'), function ($query) use ($request) {
-                $term = '%' . $request->q . '%';
+                $term = '%'.$request->q.'%';
                 $query->where(fn ($q) => $q->where('title', 'like', $term)->orWhere('model', 'like', $term));
             })
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
@@ -58,10 +59,10 @@ class MotorcycleController extends Controller
     public function destroy(Motorcycle $motorcycle): RedirectResponse
     {
         if ($motorcycle->main_image) {
-            Storage::disk('public')->delete($motorcycle->main_image);
+            Storage::disk(StorageHelper::disk())->delete($motorcycle->main_image);
         }
         foreach ($motorcycle->images as $image) {
-            Storage::disk('public')->delete($image->image);
+            Storage::disk(StorageHelper::disk())->delete($image->image);
         }
 
         $motorcycle->delete();

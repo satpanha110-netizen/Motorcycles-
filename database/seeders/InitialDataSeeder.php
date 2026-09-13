@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Motorcycle;
 use App\Models\MotorcycleImage;
+use App\Models\StorageHelper;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -79,8 +80,8 @@ class InitialDataSeeder extends Seeder
 
     public function run(): void
     {
-        Storage::disk('public')->deleteDirectory('motorcycles');
-        Storage::disk('public')->makeDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->deleteDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->makeDirectory('motorcycles');
 
         // ---- Accounts ----
         $admin = User::updateOrCreate(
@@ -133,8 +134,8 @@ class InitialDataSeeder extends Seeder
         $categories = Category::pluck('id')->all();
 
         // ---- 100 motorcycles ----
-        Storage::disk('public')->deleteDirectory('motorcycles');
-        Storage::disk('public')->makeDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->deleteDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->makeDirectory('motorcycles');
 
         $combos = [];
         foreach ($this->catalog as $brandName => $models) {

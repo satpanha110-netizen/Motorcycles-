@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Motorcycle;
 use App\Models\MotorcycleImage;
+use App\Models\StorageHelper;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -102,8 +103,8 @@ class PinterestImagesSeeder extends Seeder
         }
 
         // ---- Fresh storage + wipe old listings ----
-        Storage::disk('public')->deleteDirectory('motorcycles');
-        Storage::disk('public')->makeDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->deleteDirectory('motorcycles');
+        Storage::disk(StorageHelper::disk())->makeDirectory('motorcycles');
         MotorcycleImage::query()->delete();
         Motorcycle::query()->delete();
 
@@ -118,7 +119,7 @@ class PinterestImagesSeeder extends Seeder
             }
         }
 
-        $disk = Storage::disk('public');
+        $disk = Storage::disk(StorageHelper::disk());
         $i = 0;
         $imported = 0;
         $totalImages = 0;

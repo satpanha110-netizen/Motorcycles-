@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\StorageHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -21,9 +22,9 @@ class ProfileController extends Controller
 
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
-                Storage::disk('public')->delete($user->profile_image);
+                Storage::disk(StorageHelper::disk())->delete($user->profile_image);
             }
-            $data['profile_image'] = $request->file('profile_image')->store('profiles', 'public');
+            $data['profile_image'] = $request->file('profile_image')->store('profiles', StorageHelper::disk());
         }
 
         if ($request->filled('password')) {

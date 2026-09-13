@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\StorageHelper;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class UserController extends Controller
     {
         $users = User::withCount(['motorcycles', 'orders'])
             ->when($request->filled('q'), function ($query) use ($request) {
-                $term = '%' . $request->q . '%';
+                $term = '%'.$request->q.'%';
                 $query->where(fn ($q) => $q->where('name', 'like', $term)->orWhere('email', 'like', $term));
             })
             ->when($request->filled('role'), fn ($query) => $query->where('role', $request->role))
@@ -39,7 +40,7 @@ class UserController extends Controller
         $data['password'] = Hash::make($data['password']);
 
         if ($request->hasFile('profile_image')) {
-            $data['profile_image'] = $request->file('profile_image')->store('profiles', 'public');
+            $data['profile_image'] = $request->file('profile_image')->store('profiles', StorageHelper::disk());
         }
 
         User::create($data);
@@ -62,9 +63,9 @@ class UserController extends Controller
 
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
-                Storage::disk('public')->delete($user->profile_image);
+                Storage::disk(StorageHelper::disk())->delete($user->profile_image);
             }
-            $data['profile_image'] = $request->file('profile_image')->store('profiles', 'public');
+            $data['profile_image'] = $request->file('profile_image')->store('profiles', StorageHelper::disk());
         }
 
         if ($request->filled('password')) {
@@ -81,7 +82,7 @@ class UserController extends Controller
         abort_if($user->id === auth()->id(), 403, 'You cannot delete your own account.');
 
         if ($user->profile_image) {
-            Storage::disk('public')->delete($user->profile_image);
+            Storage::disk(StorageHelper::disk())->delete($user->profile_image);
         }
 
         $user->delete();

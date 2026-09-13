@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\StorageHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -23,7 +25,7 @@ class BrandController extends Controller
         $data = $this->validated($request);
 
         if ($request->hasFile('logo')) {
-            $data['logo'] = $request->file('logo')->store('brands', 'public');
+            $data['logo'] = $request->file('logo')->store('brands', StorageHelper::disk());
         }
 
         Brand::create($data);
@@ -42,9 +44,9 @@ class BrandController extends Controller
 
         if ($request->hasFile('logo')) {
             if ($brand->logo) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($brand->logo);
+                Storage::disk(StorageHelper::disk())->delete($brand->logo);
             }
-            $data['logo'] = $request->file('logo')->store('brands', 'public');
+            $data['logo'] = $request->file('logo')->store('brands', StorageHelper::disk());
         }
 
         $brand->update($data);
